@@ -1,0 +1,8 @@
+#hides the bot's configuration that contains its api keys
+/config.cfg
+
+#hides useless files/folders
+/wsl_env
+/.vscode
+/TweetedUsernames
+.twurlrc
