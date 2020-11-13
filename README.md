@@ -9,7 +9,7 @@ Even if Python 2 is already depracated, you need to install Python 3. I'd recomm
 
 Also if you're an EXPERIENCED user, feel free to do it your way. This is the first time I'm documenting something like this so if you think something is wrongfully documentated, feel free to send a pull request!
 
-**1.** Download the latest release from https://github.com/juanpisuribe13/FuckEveryROBLOXUsername/releases/latest, then extract it in a folder of your choice.
+**1.** Download the latest release by cloning it from Git, or just pressing the green button and clicking on Download ZIP; then extract it in a folder of your choice.
 
 **2.** Open up a terminal, go to the folder where you extracted it in, then create a virtual environment in the same folder by typing in `python3 -m venv feru_env`; if you want to, you can change feru_env to the name of your choice.
 
