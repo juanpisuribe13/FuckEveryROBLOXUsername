@@ -5,46 +5,23 @@ import requests, json
 from time import sleep
 from datetime import datetime
 
+# Config file setup
 config = configparser.ConfigParser()
 configFile = ('config.cfg')
 config.read(configFile)
 
+# Key variables setup
 TimeToCount = int(config['Count']['Time'])
 CurrentCount = int(config['Count']['CurrentCount'])
 MaximumCount = int(config['Count']['MaximumCount'])
 CurrentTry = int(config['Tries']['CurrentTry'])
 MaximumTries = int(config['Tries']['MaximumTries'])
-ID = randrange(1, 1000000000)
-
 usernamesFileName = ("TweetedUsernames.txt")
 
-class bColors:
-    okGreen = '\033[92m'
-    warning = '\033[93m'
-    fail = '\033[91m'
-    ENDC = '\033[0m'
-
-try:
-    usernamesFile = open(usernamesFileName, "x")
-    print(f"{bColors.warning}Username File does not exist{bColors.ENDC}; {bColors.okGreen}file has been created{bColors.ENDC}")
-    usernamesFile.close()
-except FileExistsError:
-    print(f"{bColors.warning}Usernames File already exists, moving on{bColors.ENDC}")
-
+# Misc
 def getTime():
-    time = datetime.now()
-    return time.strftime("%D %T")
-
-print("%s - Logging in on Twitter..." % (getTime()))
-API_KEY = config['Twitter API Keys']['API_KEY']
-API_SECRET = config['Twitter API Keys']['API_SECRET']
-TOKEN_ACCESS = config['Twitter API Keys']['TOKEN_ACCESS']
-SECRET_TOKEN = config['Twitter API Keys']['SECRET_TOKEN']
-
-twtAuth = tweepy.OAuthHandler(API_KEY, API_SECRET)
-twtAuth.set_access_token(TOKEN_ACCESS, SECRET_TOKEN)
-twtAPI = tweepy.API(twtAuth)
-print(f"{bColors.okGreen}%s - Logged in!{bColors.ENDC}" % (getTime()))
+    now = datetime.now()
+    return now.strftime("%d/%m/%y %H:%M:%S")
 
 def tweet(tweetContent):   
     twtAPI.update_status(tweetContent)
@@ -62,6 +39,7 @@ def sumCount(c, a, b):
     config[a][b] = str(c)
     with open(configFile, 'w') as configfile:
         config.write(configfile)
+    # Sums both the count and the tries in config.cfg file
 
 def saveUsername(username):
     usernamesFile = open(usernamesFileName, "a")
@@ -78,14 +56,39 @@ def isAlreadyTweeted(username):
     else:
         return False
 
-print("%s Starting... now!" % (getTime()))
+class bColors:
+    okGreen = '\033[92m'
+    warning = '\033[93m'
+    fail = '\033[91m'
+    ENDC = '\033[0m'
+
+try:
+    usernamesFile = open(usernamesFileName, "x")
+    print(f"{bColors.warning}Username File does not exist{bColors.ENDC}; {bColors.okGreen}file has been created{bColors.ENDC}")
+    usernamesFile.close()
+except FileExistsError:
+    print(f"{bColors.warning}Usernames File already exists, moving on{bColors.ENDC}")
+# Checks if the tweeted usernames file already exists
+
+print("%s - Logging in on Twitter..." % (getTime()))
+API_KEY = config['Twitter API Keys']['API_KEY']
+API_SECRET = config['Twitter API Keys']['API_SECRET']
+TOKEN_ACCESS = config['Twitter API Keys']['TOKEN_ACCESS']
+SECRET_TOKEN = config['Twitter API Keys']['SECRET_TOKEN']
+
+twtAuth = tweepy.OAuthHandler(API_KEY, API_SECRET)
+twtAuth.set_access_token(TOKEN_ACCESS, SECRET_TOKEN)
+twtAPI = tweepy.API(twtAuth)
+print(f"{bColors.okGreen}%s - Logged in!{bColors.ENDC}" % (getTime()))
+
+print("%s - Starting... now!" % (getTime()))
 
 while CurrentCount < MaximumCount:
     ID = randrange(1, 1000000000)
     username = getUsername(ID)
 
-    print("%s Checking if tweet can be sent..." % (getTime()))
-    if username == 'Invalid_ID':
+    print("%s - Checking if tweet can be sent..." % (getTime()))
+    if username == 'Invalid_ID': # checks if username is invalid
         print(f"{bColors.fail} %s - Invalid User ID (%i), will not be tweeted; continuing with the next one...{bColors.ENDC}" % (getTime(), ID))
         continue
     else:
@@ -101,7 +104,7 @@ while CurrentCount < MaximumCount:
             saveUsername(username)
         except tweepy.TweepError as TweepError:     
             TweepError = str(TweepError)
-            if '187' in TweepError:
+            if '187' in TweepError: # everytime the bot updates the status, it updates it + returns this error; to avoid conflict, it leaves the exception
                 break
             else:
                 sumCount(CurrentTry, 'Tries', 'CurrentTry')
@@ -116,6 +119,6 @@ while CurrentCount < MaximumCount:
     if CurrentCount < MaximumCount:
         sleep(TimeToCount)
     else:
-        continue # just so it can leave the loop if it hasnt reached its maximum
+        continue # just so it can leave the loop if it the count hasnt reached its maximum
 
 print(f"{bColors.okGreen}%s - lol rip{bColors.ENDC}" % (getTime()))
