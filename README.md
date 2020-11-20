@@ -53,4 +53,4 @@ Answer: Amazon Web Services using the instance type t2.micro. I could use an RPi
 Answer: i was bored
 
 #### Question: Your code is horrible man
-Answer: If you think it is feel free to send a pull request on GitHun, I'll see if I'll accept it
+Answer: If you think it is feel free to send a pull request on GitHub, I'll see if I'll accept it
