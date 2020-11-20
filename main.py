@@ -1,7 +1,7 @@
 from random import randrange
 import configparser
 import tweepy
-import requests, json
+import requests
 from time import sleep
 from datetime import datetime
 
@@ -27,9 +27,9 @@ def tweet(tweetContent):
     twtAPI.update_status(tweetContent)
 
 def getUsername(i):  
-    getAPIrequest = requests.get("https://api.roblox.com/users/%i" % (i))
+    getAPIrequest = requests.get("https://api.roblox.com/users/%i" % (i)).json()
     try:
-        user = getAPIrequest.json()['Username']
+        user = getAPIrequest['Username']
         return user
     except KeyError:
         return 'Invalid_ID'
@@ -85,7 +85,11 @@ print("%s - Starting... now!" % (getTime()))
 
 while CurrentCount < MaximumCount:
     ID = randrange(1, 1000000000)
+    #try:
     username = getUsername(ID)
+    #except simplejson.decoder.JSONDecodeError:
+    #    print(f"{bColors.fail}%s - JSON error, retrying again...{bColors.ENDC}")
+    #    continue
 
     print("%s - Checking if tweet can be sent..." % (getTime()))
     if username == 'Invalid_ID': # checks if username is invalid
