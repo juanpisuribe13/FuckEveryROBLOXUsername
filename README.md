@@ -37,11 +37,20 @@ Before doing this I'd like to say that from my experience: **if you're doing thi
 
 ## FAQ
 
-#### Why 2 million usernames and why tweet it every 60 seconds?
-If i did it every 15 minutes, I would only have 100k users in 3/4 years. My goal is to do it with a high quantity of usernames possible that will finish in 3/4 years.
+#### Question: Why 2 million usernames and why tweet it every 60 seconds?
+Answer: If i did it every 15 minutes, I would only have 100k usernames in 3/4 years. My goal is to do it with a high quantity of usernames possible that will finish in 3/4 years.
 
-#### Why did you do this?
-i was bored
+#### Question: Why not pick between the IDs 1 to the last ID?
+Answer: I want to stay relevant; most (if not ALMOST all) relevant usernames are after the ID 10.000.000. If there's demand however, I can change the maximum ID to 2 billion (or the latest one).
 
-#### your code is horrible lol
-If you think it is feel free to send a pull request then, I'll see if I'll accept it.
+#### Question: Isn't 2 million usernames a small quantity?
+Answer: Yeah. If there is enough demand after it reaches 2 million usernames, this bot will still be running until an event happens, like lack of funds to keep the bot up.
+
+#### Question: Where is the bot hosted?
+Answer: Amazon Web Services using the instance type t2.micro. I could use an RPi to host it for free but my electricity service's pricing scheme is really weird that if I host it 24/7 on the RPi bills will come really expensive, so I can't.
+
+#### Question: Why did you do this?
+Answer: i was bored
+
+#### Question: Your code is horrible man
+Answer: If you think it is feel free to send a pull request on GitHun, I'll see if I'll accept it
