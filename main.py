@@ -1,4 +1,4 @@
-from random import randrange
+from random import randrange, uniform
 import configparser
 import tweepy
 import requests
@@ -24,7 +24,7 @@ def getTime():
     return now.strftime("%d/%m/%y %H:%M:%S")
 
 def tweet(tweetContent):   
-    twtAPI.update_status(tweetContent)
+    twtAPI.update_status(status = tweetContent)
 
 def getUsername(i):  
     getAPIrequest = requests.get("https://api.roblox.com/users/%i" % (i)).json()
@@ -91,7 +91,7 @@ while CurrentCount < MaximumCount:
     #    print(f"{bColors.fail}%s - JSON error, retrying again...{bColors.ENDC}")
     #    continue
 
-    print("%s - Checking if tweet can be sent..." % (getTime()))
+    #print("%s - Checking if tweet can be sent..." % (getTime()))
     if username == 'Invalid_ID': # checks if username is invalid
         print(f"{bColors.fail} %s - Invalid User ID (%i), will not be tweeted; continuing with the next one...{bColors.ENDC}" % (getTime(), ID))
         continue
@@ -101,27 +101,24 @@ while CurrentCount < MaximumCount:
 
     while CurrentTry < MaximumTries:
         try:
-            tweet("fuck %s" % (username)) 
-            sumCount(CurrentCount, 'Count', 'CurrentCount')
             CurrentCount = int(config['Count']['CurrentCount'])
+            sumCount(CurrentCount, 'Count', 'CurrentCount')
+            tweet("fuck %s (%i)" % (username, CurrentCount)) 
             print(f"{bColors.okGreen}%s - Tweeted: Username = %s, ID = %i, Count = %i{bColors.ENDC}" % (getTime(), username, ID, CurrentCount))
             saveUsername(username)
+            break
         except tweepy.TweepError as TweepError:     
-            TweepError = str(TweepError)
-            if '187' in TweepError: # everytime the bot updates the status, it updates it + returns this error; to avoid conflict, it leaves the exception
-                break
-            else:
-                sumCount(CurrentTry, 'Tries', 'CurrentTry')
-                CurrentTry = int(config['Tries']['CurrentTry'])
-                print(f"{bColors.fail}%s - Could not tweet. Trying again in 15 minutes...{bColors.ENDC}" % (getTime()))
-                print(f"{bColors.fail}%s{bColors.ENDC}" % (TweepError))
-                sleep(60 * 15)
+            sumCount(CurrentTry, 'Tries', 'CurrentTry')
+            CurrentTry = int(config['Tries']['CurrentTry'])
+            print(f"{bColors.fail}%s - Could not tweet. Trying again in 15 minutes...{bColors.ENDC}" % (getTime()))
+            print(f"{bColors.fail}%s{bColors.ENDC}" % (TweepError))
+            sleep(60 * 15)
         if CurrentTry > MaximumCount or CurrentTry == MaximumCount:
             print(f"{bColors.fail}%s - Cannot tweet anymore. Switching off...{bColors.ENDC}" % (getTime))
             raise KeyboardInterrupt
 
-    if CurrentCount < MaximumCount:
-        sleep(TimeToCount)
+    if CurrentCount <MaximumCount:
+        sleep(60)
     else:
         continue # just so it can leave the loop if it the count hasnt reached its maximum
 
