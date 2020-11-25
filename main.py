@@ -14,6 +14,8 @@ config.read(configFile)
 TimeToCount = int(config['Count']['Time'])
 CurrentCount = int(config['Count']['CurrentCount'])
 MaximumCount = int(config['Count']['MaximumCount'])
+MinimumID = int(config['IDs']['MinimumID'])
+MaximumID = int(config['IDs']['MaximumID'])
 CurrentTry = int(config['Tries']['CurrentTry'])
 MaximumTries = int(config['Tries']['MaximumTries'])
 usernamesFileName = ("TweetedUsernames.txt")
@@ -84,14 +86,10 @@ print(f"{bColors.okGreen}%s - Logged in!{bColors.ENDC}" % (getTime()))
 print("%s - Starting... now!" % (getTime()))
 
 while CurrentCount < MaximumCount:
-    ID = randrange(1, 1000000000)
-    #try:
+    
+    ID = randrange(MinimumID, MaximumID)
     username = getUsername(ID)
-    #except simplejson.decoder.JSONDecodeError:
-    #    print(f"{bColors.fail}%s - JSON error, retrying again...{bColors.ENDC}")
-    #    continue
 
-    #print("%s - Checking if tweet can be sent..." % (getTime()))
     if username == 'Invalid_ID': # checks if username is invalid
         print(f"{bColors.fail} %s - Invalid User ID (%i), will not be tweeted; continuing with the next one...{bColors.ENDC}" % (getTime(), ID))
         continue
@@ -118,7 +116,7 @@ while CurrentCount < MaximumCount:
             raise KeyboardInterrupt
 
     if CurrentCount <MaximumCount:
-        sleep(60)
+        sleep(TimeToCount)
     else:
         continue # just so it can leave the loop if it the count hasnt reached its maximum
 
