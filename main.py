@@ -101,7 +101,7 @@ while CurrentCount < MaximumCount:
         try:
             CurrentCount = int(config['Count']['CurrentCount'])
             sumCount(CurrentCount, 'Count', 'CurrentCount')
-            tweet("fuck %s (%i)" % (username, CurrentCount)) 
+            tweet("fuck %s (ID: %i)" % (username, ID)) 
             print(f"{bColors.okGreen}%s - Tweeted: Username = %s, ID = %i, Count = %i{bColors.ENDC}" % (getTime(), username, ID, CurrentCount))
             saveUsername(username)
             break
