@@ -43,6 +43,12 @@ def sumCount(c, a, b):
         config.write(configfile)
     # Sums both the count and the tries in config.cfg file
 
+def resetCount(c, a, b):
+    c = 1
+    config[a][b] = str(c)
+    with open(configFile, 'w') as configfile:
+        config.write(configfile)
+
 def saveUsername(username):
     usernamesFile = open(usernamesFileName, "a")
     usernamesFile.write("%s\n" % (username))
@@ -86,7 +92,6 @@ print(f"{bColors.okGreen}%s - Logged in!{bColors.ENDC}" % (getTime()))
 print("%s - Starting... now!" % (getTime()))
 
 while CurrentCount < MaximumCount:
-    
     ID = randrange(MinimumID, MaximumID)
     username = getUsername(ID)
 
@@ -103,17 +108,20 @@ while CurrentCount < MaximumCount:
             sumCount(CurrentCount, 'Count', 'CurrentCount')
             tweet("fuck %s (ID: %i)" % (username, ID)) 
             print(f"{bColors.okGreen}%s - Tweeted: Username = %s, ID = %i, Count = %i{bColors.ENDC}" % (getTime(), username, ID, CurrentCount))
+            resetCount(CurrentCount, 'Tries', 'MaximumTries')
             saveUsername(username)
             break
-        except tweepy.TweepError as TweepError:     
-            sumCount(CurrentTry, 'Tries', 'CurrentTry')
-            CurrentTry = int(config['Tries']['CurrentTry'])
-            print(f"{bColors.fail}%s - Could not tweet. Trying again in 15 minutes...{bColors.ENDC}" % (getTime()))
-            print(f"{bColors.fail}%s{bColors.ENDC}" % (TweepError))
-            sleep(60 * 15)
-        if CurrentTry > MaximumCount or CurrentTry == MaximumCount:
-            print(f"{bColors.fail}%s - Cannot tweet anymore. Switching off...{bColors.ENDC}" % (getTime))
-            raise KeyboardInterrupt
+        except tweepy.TweepError as TweepError:    
+            if CurrentTry > MaximumTries or CurrentTry == MaximumTries:
+                print(f"{bColors.fail}%s - Cannot tweet anymore. Trying again in 15 minutes{bColors.ENDC}" % (getTime))
+                sleep(60 * 15) 
+                break
+            else:
+                sumCount(CurrentTry, 'Tries', 'CurrentTry')
+                CurrentTry = int(config['Tries']['CurrentTry'])
+                print(f"{bColors.fail}%s - Could not tweet. Trying again...{bColors.ENDC}" % (getTime()))
+                print(f"{bColors.fail}%s{bColors.ENDC}" % (TweepError))
+                break
 
     if CurrentCount <MaximumCount:
         sleep(TimeToCount)
