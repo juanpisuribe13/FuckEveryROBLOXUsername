@@ -102,13 +102,13 @@ while CurrentCount < MaximumCount:
         if isAlreadyTweeted(username):
             print(f"{bColors.warning}%s - Username (%s) already tweeted. Repeating...{bColors.ENDC}" % (getTime(), username))
 
-    while CurrentTry < MaximumTries:
+    while True:
         try:
-            CurrentCount = int(config['Count']['CurrentCount'])
-            sumCount(CurrentCount, 'Count', 'CurrentCount')
             tweet("fuck %s (ID: %i)" % (username, ID)) 
+            sumCount(CurrentCount, 'Count', 'CurrentCount')
+            CurrentCount = int(config['Count']['CurrentCount'])
             print(f"{bColors.okGreen}%s - Tweeted: Username = %s, ID = %i, Count = %i{bColors.ENDC}" % (getTime(), username, ID, CurrentCount))
-            resetCount('Tries', 'MaximumTries') # resets the tries count to avoid problems
+            resetCount('Tries', 'CurrentTry') # resets the tries count to avoid problems
             saveUsername(username)
             break
         except tweepy.TweepError as TweepError:    
