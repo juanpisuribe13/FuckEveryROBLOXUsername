@@ -43,7 +43,7 @@ def sumCount(c, a, b):
         config.write(configfile)
     # Sums both the count and the tries in config.cfg file
 
-def resetCount(c, a, b):
+def resetCount(a, b):
     c = 1
     config[a][b] = str(c)
     with open(configFile, 'w') as configfile:
@@ -108,7 +108,7 @@ while CurrentCount < MaximumCount:
             sumCount(CurrentCount, 'Count', 'CurrentCount')
             tweet("fuck %s (ID: %i)" % (username, ID)) 
             print(f"{bColors.okGreen}%s - Tweeted: Username = %s, ID = %i, Count = %i{bColors.ENDC}" % (getTime(), username, ID, CurrentCount))
-            resetCount(CurrentCount, 'Tries', 'MaximumTries')
+            resetCount('Tries', 'MaximumTries') # resets the tries count to avoid problems
             saveUsername(username)
             break
         except tweepy.TweepError as TweepError:    
@@ -121,9 +121,8 @@ while CurrentCount < MaximumCount:
                 CurrentTry = int(config['Tries']['CurrentTry'])
                 print(f"{bColors.fail}%s - Could not tweet. Trying again...{bColors.ENDC}" % (getTime()))
                 print(f"{bColors.fail}%s{bColors.ENDC}" % (TweepError))
-                break
 
-    if CurrentCount <MaximumCount:
+    if CurrentCount < MaximumCount:
         sleep(TimeToCount)
     else:
         continue # just so it can leave the loop if it the count hasnt reached its maximum
