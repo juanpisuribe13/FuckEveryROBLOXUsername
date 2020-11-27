@@ -1,7 +1,6 @@
 import subprocess, sys
 import configparser
 import requests, time, math
-import threading
 from time import sleep
 
 config = configparser.ConfigParser()
@@ -30,7 +29,6 @@ def getUsername(i):
 
 x = 0
 for i in range(30, 0, -1):
-    print(i)
     n = x + pow(2, i)
     if apiRequest(n) or apiRequest(n+1) or apiRequest(n+2):
         x = int(n)
@@ -58,4 +56,4 @@ while True:
     x += 1
 
     sumLastID(x)
-    # sleep(60 * 1440)
+    sleep(60 * 1440)
