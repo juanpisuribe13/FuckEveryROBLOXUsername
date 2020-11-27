@@ -121,7 +121,7 @@ while True:
 
     while True:
         try:
-            tweet("fuck %s (ID: %i)" % (username, ID[0])) 
+            tweet("fuck %s (ID: %i; era = %s)" % (username, ID[0], ID[1])) 
             CurrentCount = int(config['Count']['CurrentCount'])
             print(f"{bColors.okGreen}%s - Tweeted: Username = %s, ID = %i, Count = %i, Era = %s{bColors.ENDC}" % (getTime(), username, ID[0], CurrentCount, ID[1]))
             resetCount('Tries', 'CurrentTry') # resets the tries count to avoid problems

@@ -56,4 +56,5 @@ while True:
     x += 1
 
     sumLastID(x)
+    print("New ID: %i" % (x))
     sleep(60 * 1440)
