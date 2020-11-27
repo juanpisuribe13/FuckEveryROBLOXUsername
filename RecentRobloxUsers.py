@@ -43,24 +43,23 @@ def getLastID():
     timeout = 0
 
     while True:
-        while True:
-                found = False
-                for i in range(0, math.floor(timeout/10)):
-                    q = apiRequest(x + i)
-                    if q:
-                        for j in range (0, i-1):
-                            Q = apiRequest(x + j)
-                            if Q:
-                                q = Q
-                                break
-                        found = True
-                        break
-                if found: 
+            found = False
+            for i in range(0, math.floor(timeout/10)):
+                q = apiRequest(x + i)
+                if q:
+                    for j in range (0, i-1):
+                        Q = apiRequest(x + j)
+                        if Q:
+                            q = Q
+                            break
+                    found = True
                     break
-                timeout += 1
+            if found: 
+                break
+            timeout += 1
     
-        timeout = 0
-        x += 1
+    timeout = 0
+    x += 1
 
     sumLastID(x)
     print("%s - New ID: %i" % (getTime(), x))
