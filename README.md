@@ -1,6 +1,7 @@
 # Fuck Every ROBLOX Username
-Python script where it tweets every minute fuck along with a random ROBLOX username between the IDs 10.000.000-1.000.000.000 obtained from ROBLOX's API for 2.000.160 times.
-Started in November 14th, 2020 and ends in September 3rd, 2024.
+Python script where it tweets every 5 minutes fuck along with a random ROBLOX username. 
+Username is picked in eras; the eras are: 2004-2007, 2008-2009, 2010-2012, 2013-2015, and 2016-2020.
+If the last era is picked, it'll picked an ID between the first registered 2016 ID and the latest 2020 ID (which is obtained via the RecentRobloxUsers.py script, and is refreshed every 24 hours to avoid sending Roblox a lot of requests.)
  
 ## To set it up:
 Before setting it up, you will need to have a Twitter Developer account. You can do it via https://developer.twitter.com/. If you plan to host the bot on a Twitter account that isn't yours, I'd recommend you to apply for a Developer account IN your main account, later in the guide I'll explain how to set up the bot in another account. 
@@ -20,7 +21,9 @@ If it gives you an error saying that Python wasn't found, replace "python3" with
 
 **5.** Before executing the Python script, you need to put your Twitter API keys on it. To do so, open config_barebones.cfg, and put in your API keys. (Note: if you're going to host the bot on another Twitter account, leave the token_access and secret_token in blank and skip to the next section.). Feel free to tweak the configuration file to your likings. When you're done, change the file name to config.cfg.
 
-**6.** You can now host the bot! To do it, run python3 main.py.
+**6.** You can now run the bot! To do so, you could either run `python3 main.py` or `python3 main.py & python3 RecentRobloxUsers.py` if you want to obtain the last registered ID every 24 hours. 
+
+Keep in mind that if you're running the last command on Linux, when you stop the script RecentRobloxUsers.py will stop but main.py will still be running; a way to stop this is to find its process ID by typing `pgrep python3` then stopping it via `kill [PIDHERE]`. A script will be worked soon to fix this.
 
 ### For users who want to host the bot in another Twitter Account:
 Before doing this I'd like to say that from my experience: **if you're doing this on Windows Subsystem for Linux, you should do this in Windows instead of WSL. I did this in WSL and it didn't release the .twurlrc file for some reason. I probably did something wrong but still, I'd recommend you to do it in Windows instead of WSL.**
@@ -33,18 +36,17 @@ Before doing this I'd like to say that from my experience: **if you're doing thi
 
 **4.** After authenticating, a file called `.twurlrc` will appear; open it. Pay attention to both 'token' and 'secret' keys. Open the config.cfg file that you edited earlier, fill in respectively the 'token' code in 'token_access', and 'secret' code in 'secret_token'. (I know this is logical but some people may don't know about this so I had to mention this.)
 
-**5.** You can now host the bot! To do it, run python3 main.py.
+**5.** You can now run the bot! To do so, you could either run `python3 main.py` or `python3 main.py & python3 RecentRobloxUsers.py` if you want to obtain the last registered ID every 24 hours. 
+
+Keep in mind that if you're running the last command on Linux, when you stop the script RecentRobloxUsers.py will stop but main.py will still be running; a way to stop this is to find its process ID by typing `pgrep python3` then stopping it via `kill [PIDHERE]`. A script will be worked soon to fix this.
 
 ## FAQ
 
-#### Question: Why 2 million usernames and why tweet it every 60 seconds?
-Answer: If i did it every 15 minutes, I would only have 100k usernames in 3/4 years. My goal is to do it with a high quantity of usernames possible that will finish in 3/4 years.
+#### Question: What's with this era thing?
+Answer: It's for relevancy. Think about a bot that picks an username between the first ID and the last ID; there's a problem though, it will never pick the lower IDs. That's where the eras come in, giving both older and newer IDs a chance to be tweeted.
 
-#### Question: Why not pick between the IDs 1 to the last ID?
-Answer: I want to stay relevant; most (if not ALMOST all) relevant usernames are after the ID 10.000.000. If there's demand however, I can change the maximum ID to 2 billion (or the latest one).
-
-#### Question: Isn't 2 million usernames a small quantity?
-Answer: Yeah. If there is enough demand after it reaches 2 million usernames, this bot will still be running until an event happens, like lack of funds to keep the bot up.
+#### Question: Why pick the usernames randomly instead in order?
+Answer: It sounds good, but it would take years (like A LOT of years) to reach modern day usernames.
 
 #### Question: Where is the bot hosted?
 Answer: Amazon Web Services using the instance type t2.micro. I could use an RPi to host it for free but my electricity service's pricing scheme is really weird that if I host it 24/7 on the RPi bills will come really expensive, so I can't.
