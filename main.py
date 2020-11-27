@@ -130,7 +130,7 @@ while True:
             break
         except tweepy.TweepError as TweepError:    
             if CurrentTry > MaximumTries or CurrentTry == MaximumTries:
-                print(f"{bColors.fail}%s - Cannot tweet anymore. Trying again in 15 minutes{bColors.ENDC}" % (getTime))
+                print(f"{bColors.fail}%s - Cannot tweet anymore. Trying again in 15 minutes{bColors.ENDC}" % (getTime()))
                 sleep(60 * 15) 
                 break
             else:
