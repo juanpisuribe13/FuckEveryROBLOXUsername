@@ -53,9 +53,8 @@ def resetLastID():
         config.write(configfile)
 
 def getID():
-    # config.read(configFile)
-    # LastID = int(config['IDs']['LastID'])
-    LastID = id
+    config.read(configFile)
+    LastID = int(config['IDs']['LastID'])
     if LastID < 1390874933:
         resetLastID()
         config.read(configFile) 
