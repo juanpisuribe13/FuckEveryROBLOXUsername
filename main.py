@@ -29,7 +29,7 @@ def getUsername(i):
     getAPIrequest = requests.get("https://api.roblox.com/users/%i" % (i)).json()
     try:
         user = getAPIrequest['Username']
-        return user, getAPIrequest
+        return user
     except KeyError:
         return 'Invalid_ID'
 
@@ -112,14 +112,12 @@ while True:
     while True:
         try:
             ID = getID()
-            username = getUsername(ID[0])[0]
+            username = getUsername(ID[0])
             break
         except ValueError: # JSONDecodeError belongs to ValueError
             print(f"{bColors.fail}%s - Error in decoding username; trying again...{bColors.ENDC}" % (getTime()))
-            print(f"{bColors.fail}JSON: %s{bColors.ENDC}" % (getUsername(ID[0])[1]))
         
         # ID[0] = generated id; ID[1] = id's era
-        # getUsername(i)[0] obtains the username; [1] obtains the full JSON file for troubleshooting
         # im sorry im just tired and ran out of coffee
 
     if username == 'Invalid_ID': # checks if username is invalid
