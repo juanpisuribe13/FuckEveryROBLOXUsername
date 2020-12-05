@@ -126,6 +126,7 @@ while True:
     else:
         if isAlreadyTweeted(username):
             print(f"{bColors.warning}%s - Username (%s) already tweeted. Repeating...{bColors.ENDC}" % (getTime(), username))
+            continue
 
     while True:
         try:
