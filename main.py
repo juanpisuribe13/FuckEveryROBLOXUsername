@@ -3,6 +3,7 @@ from time import sleep
 from datetime import datetime
 import configparser
 import tweepy, requests
+import ferunDB
 
 # Config file setup
 config = configparser.ConfigParser()
@@ -71,28 +72,16 @@ def saveUsername(username):
     usernamesFile.write("%s\n" % (username))
     usernamesFile.close()
 
-def isAlreadyTweeted(username):
-    usernamesFile = open(usernamesFileName, "r")
-    usernamesArray = usernamesFile.read()
-    usernamesFile.close()
-    usernamesArray = usernamesArray.split("\n")
-    if username in usernamesArray:
-        return True
-    else:
-        return False
-
 class bColors:
     okGreen = '\033[92m'
     warning = '\033[93m'
     fail = '\033[91m'
     ENDC = '\033[0m'
 
-try:
-    usernamesFile = open(usernamesFileName, "x")
-    print(f"{bColors.warning}Username File does not exist{bColors.ENDC}; {bColors.okGreen}file has been created{bColors.ENDC}")
-    usernamesFile.close()
-except FileExistsError:
-    print(f"{bColors.warning}Usernames File already exists, moving on{bColors.ENDC}")
+if ferunDB.AlreadyExists:
+    print(f"{bColors.warning}Database already exists, moving on{bColors.ENDC}")
+else:
+    print(f"{bColors.warning}Username Database does not exist{bColors.ENDC}; {bColors.okGreen}database has been created{bColors.ENDC}")
 # Checks if the tweeted usernames file already exists
 
 print("%s - Logging in on Twitter..." % (getTime()))
@@ -124,7 +113,7 @@ while True:
         print(f"{bColors.fail}%s - Invalid User ID (%i); will not be tweeted. continuing with the next ID...{bColors.ENDC}" % (getTime(), ID[0]))
         continue
     else:
-        if isAlreadyTweeted(username):
+        if ferunDB.isAlreadyTweeted(username):
             print(f"{bColors.warning}%s - Username (%s) already tweeted. Repeating...{bColors.ENDC}" % (getTime(), username))
             continue
 
@@ -135,7 +124,7 @@ while True:
             CurrentCount = int(config['Count']['CurrentCount'])
             print(f"{bColors.okGreen}%s - Tweeted: Username = %s, ID = %i, Count = %i, Era = %s{bColors.ENDC}" % (getTime(), username, ID[0], CurrentCount, ID[1]))
             resetCount('Tries', 'CurrentTry') # resets the tries count to avoid problems
-            saveUsername(username)
+            ferunDB.createRow(username, ID[0])
             break
         except tweepy.TweepError as TweepError:    
             if CurrentTry > MaximumTries or CurrentTry == MaximumTries:
