@@ -68,10 +68,10 @@ def getID():
         # resets the last id to the default one if the default one is changed in config.cfg to a lower one
 
     era = ['2004-2007', '2008-2009', '2010-2012', '2013-2015', '2016-2020'] # Eras
-    era = randrange(len(era)) # Picks era
+    eraLen = randrange(len(era)) # Picks era
     ID = [[1, 141923], [141924, 5881980], [5881981, 36349001], [36349002, 103536228], [103536229, LastID]] # IDs per Era
-    ID = ID[era] # Picks Era with ID
-    return [randrange(ID[0], ID[1]), era]
+    ID = ID[eraLen] # Picks Era with ID
+    return [randrange(ID[0], ID[1]), era[eraLen]]
     # ID[0] = randomly picked ID
 
 if ferunDB.AlreadyExists:
@@ -117,7 +117,7 @@ while True:
 
     while True:
         try:
-            # tweet("fuck %s (ID: %i; era = %s)" % (username, ID[0], ID[1])) 
+            tweet("fuck %s (ID: %i; era = %s)" % (username, ID[0], ID[1])) 
             print(f"{c.success}%s - Tweeted: Username = %s, ID = %i, Count = %i, Era = %s{c.olors}" % (getTime(), username, ID[0], ferunDB.getLastCount(), ID[1]))
             resetCount('Tries', 'CurrentTry') # resets the tries count to avoid problems
             ferunDB.createRow(username, ID[0])
