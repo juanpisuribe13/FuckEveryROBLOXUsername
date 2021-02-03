@@ -37,7 +37,20 @@ def isAlreadyTweeted(y):
     dbc.close()
     return False
 
+def getLastCount():
+    db = sqlite3.connect('FERUN.db')
+    dbc = db.cursor()
+    for row in dbc.execute('SELECT fkdID FROM FERUN ORDER BY fkdID'):
+        i = row[0]
+    try:
+        i += 1
+    except NameError:
+        i = 1
+    return i
+    dbc.close()
+
 # if __name__ == '__main__':
+#     print(getLastCount())
 #     x = FindPamID('t2TlAVwDPpGKW2qB_lReMA')
 #     print(x)
 ## Only use this to troubleshoot
