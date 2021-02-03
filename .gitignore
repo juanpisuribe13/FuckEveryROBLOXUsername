@@ -1,11 +1,11 @@
-#hides the bot's configuration that contains its api keys
+#hides sensitive data of the bot
 /config.cfg
+FERUN.db
+.twurlrc
+TweetedUsernames.txt
 
 #hides useless files/folders
 /wsl_env
 /.vscode
 /TweetedUsernames
-.twurlrc
-TweetedUsernames.txt
 dev_main.py
-FERUN.db
