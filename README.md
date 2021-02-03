@@ -1,60 +1,90 @@
-# like TweetFromX, its been months since i havent worked on this and some of the stuff is messy (including the README.md file). when i can, i will improve it asap.
+# FERUN (Fuck Every Roblox Username)
 
-# Fuck Every ROBLOX Username
-Python script where it tweets every 5 minutes fuck along with a random ROBLOX username. 
-Username is picked in eras; the eras are: 2004-2007, 2008-2009, 2010-2012, 2013-2015, and 2016-2020.
-If the last era is picked, it'll picked an ID between the first registered 2016 ID and the latest 2020 ID (which is obtained via the RecentRobloxUsers.py script, and is refreshed every 24 hours to avoid sending Roblox a lot of requests.)
- 
-## To set it up:
-Before setting it up, you will need to have a Twitter Developer account. You can do it via https://developer.twitter.com/. If you plan to host the bot on a Twitter account that isn't yours, I'd recommend you to apply for a Developer account IN your main account, later in the guide I'll explain how to set up the bot in another account. 
+Twitter bot that tweets f--k alongside with a random ROBLOX username obtained from their API. Username is picked in eras; if the latest era is picked, it will pick an ID between 2016 and the latest ID registered which is obtained via the RecentRobloxUsers.py script (last ID is obtained every 24 hours to avoid sending an high amount of requests to ROBLOX).
 
-Even if Python 2 is already depracated, you need to install Python 3. I'd recommend you to use the Python 3 version from https://www.python.org/ instead of the Windows Store one.
+## Before you begin...
 
-Also if you're an EXPERIENCED user, feel free to do it your way. This is the first time I'm documenting something like this so if you think something is wrongfully documentated, feel free to send a pull request!
+- You need a Twitter Developer Account; apply for access [here](https://developer.twitter.com/en/apply-for-access).
 
-**1.** Download the latest release by cloning it from Git, or just pressing the green button and clicking on Download ZIP; then extract it in a folder of your choice.
+- Python **3**;  NOT 2, **but 3**. If you're on Windows, I recommend you to get it [on Python's official website](https://www.python.org/downloads/) instead of downloading it on the Microsoft Store.
 
-**2.** Open up a terminal, go to the folder where you extracted it in, then create a virtual environment in the same folder by typing in `python3 -m venv feru_env`; if you want to, you can change feru_env to the name of your choice.
+## Setup
 
-**3.** Activate the virtual environment by typing in: `source feru_env/bin/activate`, or if you're using Windows: `feru_env/Scripts/activate.bat`. If your virtual environment's name isn't feru_env, change it to the name you put it in while typing the command. Remember to activate this IN the same folder where you extracted the latest release AND where you created the virtual environment.
+**1.** Clone the repository via git clone
 
-**4.** To install the required modules, type in: `python3 -m pip install -r requirements.txt`
-If it gives you an error saying that Python wasn't found, replace "python3" with "python". If it gives you an error saying 'pip' wasn't found, you may want to reinstall pip.
+```git
+git clone https://github.com/juanpisuribe13/FuckEveryROBLOXUsername.git
+```
 
-**5.** Before executing the Python script, you need to put your Twitter API keys on it. To do so, open config_barebones.cfg, and put in your API keys. (Note: if you're going to host the bot on another Twitter account, leave the token_access and secret_token in blank and skip to the next section.). Feel free to tweak the configuration file to your likings. When you're done, change the file name to config.cfg.
+**2.** Add your Twitter API keys to the `config_barebones.cfg` file, then rename the file to `config.cfg`.
 
-**6.** You can now run the bot! To do so, you could either run `python3 main.py` or `python3 main.py & python3 RecentRobloxUsers.py` if you want to obtain the last registered ID every 24 hours. 
+**3.** To avoid cluttering your Python installation, create a virtual environment by typing:
+```bash
+python3 -m venv env
 
-Keep in mind that if you're running the last command on Linux, when you stop the script RecentRobloxUsers.py will stop but main.py will still be running; a way to stop this is to find its process ID by typing `pgrep python3` then stopping it via `kill [PIDHERE]`. A script will be worked soon to fix this.
+# if above command opens windows store, try this one
+python -m venv env
+ ``` 
 
-### For users who want to host the bot in another Twitter Account:
-Before doing this I'd like to say that from my experience: **if you're doing this on Windows Subsystem for Linux, you should do this in Windows instead of WSL. I did this in WSL and it didn't release the .twurlrc file for some reason. I probably did something wrong but still, I'd recommend you to do it in Windows instead of WSL.**
+**3.1** After creating the virtual environment, access it.
+```bash
+# For UNIX users:
+source env/bin/activate
 
-**1.** Install Ruby: https://www.ruby-lang.org/
+# For Windows users:
+.\env\Scripts\activate.bat
+```
 
-**2.** After installing it, open your terminal and type `gem install twurl`
+**4.** Install the required libraries found in the `requirements.txt` file.
+```bash
+pip install -r requirements.txt
 
-**3.** When the installation is finished, type in `twurl authorize --consumer-key [API_KEY] --consumer-secret [API_SECRET]` (this is logical but replace api_key and api_secret with your twitter application's api key and api key secret). After that, follow the on-screen instructions.
+# if above command doesn't work, try this
+python3 -m pip install -r requirements.txt
 
-**4.** After authenticating, a file called `.twurlrc` will appear; open it. Pay attention to both 'token' and 'secret' keys. Open the config.cfg file that you edited earlier, fill in respectively the 'token' code in 'token_access', and 'secret' code in 'secret_token'. (I know this is logical but some people may don't know about this so I had to mention this.)
+## if above command STILL doesn't work because it 
+## opened a windows store tab, try this one
+python3 -m pip install -r requirements.txt
+```
 
-**5.** You can now run the bot! To do so, you could either run `python3 main.py` or `python3 main.py & python3 RecentRobloxUsers.py` if you want to obtain the last registered ID every 24 hours. 
+**5.** Done! You could either run `python3 main.py` or `python3 main.py & python3 RecentRobloxUsers.py` if you want to obtain the last registered ID every 24 hours. 
 
-Keep in mind that if you're running the last command on Linux, when you stop the script RecentRobloxUsers.py will stop but main.py will still be running; a way to stop this is to find its process ID by typing `pgrep python3` then stopping it via `kill [PIDHERE]`. A script will be worked soon to fix this.
+Keep in mind that while you're running both scripts and you stop it, the main.py will still be running. 
+A temporal way to fix this is to terminate it.
+```bash
+## if you're on UNIX:
+
+$ pgrep python3
+[PID]
+$ kill [PID]
+# if you dont have common sense PID is the value that pgrep python3 returns
+
+## if you're on windows
+
+taskkill /IM "Python3.exe" /F
+taskkill /IM "Python.exe" /F # only try this if python3 doesn't exist
+```
+A bash script will be worked soon to do this process automatically.
 
 ## FAQ
 
-#### Question: What's with this era thing?
-Answer: It's for relevancy. Think about a bot that picks an username between the first ID and the last ID; there's a problem though, it will never pick the lower IDs. That's where the eras come in, giving both older and newer IDs a chance to be tweeted.
+### Can I use your recent registered IDs/users script?
+Yeah! You can, though you should **definitely use [this version](https://gist.github.com/juanpisuribe13/3972f188cbabed60c32e2b55c115397f)** instead of the one in the repository.
 
-#### Question: Why pick the usernames randomly instead in order?
-Answer: It sounds good, but it would take years (like A LOT of years) to reach modern day usernames.
+### What are the eras exactly and what's up with it?
+The eras are 2004-2007, 2008-2009, 2010-2012, 2013-2015, and 2016-2021 (latest 2021 IDs are obtained via the RecentRobloxUsers.py script).
 
-#### Question: Where is the bot hosted?
-Answer: Amazon Web Services using the instance type t2.micro. I could use an RPi to host it for free but my electricity service's pricing scheme is really weird that if I host it 24/7 on the RPi bills will come really expensive, so I can't.
+Eras are used for relevancy. Think about a bot that picks an username between the first ID and the last ID; sadly, it will only focus on the highest IDs. That's where the eras come in, giving both older and newer IDs a chance.
 
-#### Question: Why did you do this?
-Answer: i was bored
+### Why not pick it in order?
+Sounds good in paper, but it'll take millions of years to finish its goal.
 
-#### Question: Your code is horrible man
-Answer: If you think it is feel free to send a pull request on GitHub, I'll see if I'll accept it
+## Contributing
+If you have an idea for the bot (and know Python obviously) or feel like the code's off, feel free to send a Pull request!
+
+## License
+[MIT](https://raw.githubusercontent.com/juanpisuribe13/FuckEveryROBLOXUsername/main/LICENSE)
+
+#
+
+~~also i beg you to not look at the old readme.md file~~
