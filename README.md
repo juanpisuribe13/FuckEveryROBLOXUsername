@@ -1,3 +1,5 @@
+# like TweetFromX, its been months since i havent worked on this and some of the stuff is messy (including the README.md file). when i can, i will improve it asap.
+
 # Fuck Every ROBLOX Username
 Python script where it tweets every 5 minutes fuck along with a random ROBLOX username. 
 Username is picked in eras; the eras are: 2004-2007, 2008-2009, 2010-2012, 2013-2015, and 2016-2020.
