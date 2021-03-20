@@ -3,6 +3,8 @@
 Archived this repository because I am moving away from Twitter for the sakes of my mental health. It was a fun ride.
 Also to be fair I never liked this bot anyways because I found it childish so... yeah.
 
+Expect bugs.
+
 Tweets f--k alongside with a random ROBLOX username obtained from their API. Username is picked in eras; if the latest era is picked, it will pick an ID between 2016 and the latest ID registered which is obtained via the RecentRobloxUsers.py script (last ID is obtained every 24 hours to avoid sending a high amount of requests to ROBLOX).
 
 ## Before you begin...
