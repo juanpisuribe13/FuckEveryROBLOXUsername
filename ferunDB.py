@@ -1,4 +1,5 @@
-import sqlite3, sys
+import sys
+import sqlite3
 
 def AlreadyExists():
     db = sqlite3.connect('FERUN.db')
@@ -49,8 +50,5 @@ def getLastCount():
     return i
     dbc.close()
 
-# if __name__ == '__main__':
-#     print(getLastCount())
-#     x = FindPamID('t2TlAVwDPpGKW2qB_lReMA')
-#     print(x)
-## Only use this to troubleshoot
+if __name__ == '__main__':
+    print(getLastCount())

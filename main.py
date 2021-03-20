@@ -1,8 +1,14 @@
+import sys
+import configparser
+import tweepy
+import requests
+import RecentRobloxUsers
+import ferunDB
+
 from random import randrange, uniform, choice
 from time import sleep
 from datetime import datetime
-import sys, configparser
-import tweepy, requests, ferunDB
+from threading import Thread 
 
 # Config file setup
 config = configparser.ConfigParser()
@@ -59,6 +65,11 @@ def resetLastID():
     with open(configFile, 'w') as configfile:
         config.write(configfile)
 
+def getLastID():
+    while True:
+        RecentRobloxUsers.getLastID()
+        sleep(50)
+
 def getID():
     config.read(configFile)
     LastID = int(config['IDs']['LastID'])
@@ -96,43 +107,49 @@ else:
 
 print("%s - Starting... now!" % (getTime()))
 
-while True:
+def main():
     while True:
-        try:
-            ID = getID()
-            username = getUsername(ID[0])
-            break
-        except ValueError: # JSONDecodeError belongs to ValueError
-            print(f"{c.fail}%s - Error in decoding username; trying again...{c.olors}" % (getTime()))
-        
-        # ID[0] = generated id; ID[1] = id's era
-
-    if username == 'Invalid_ID': # checks if username is invalid
-        print(f"{c.fail}%s - Invalid User ID (%i); will not be tweeted. continuing with the next ID...{c.olors}" % (getTime(), ID[0]))
-        continue
-    else:
-        if ferunDB.isAlreadyTweeted(username):
-            print(f"{c.warning}%s - Username (%s) already tweeted. Repeating...{c.olors}" % (getTime(), username))
-            continue
-
-    while True:
-        try:
-            tweet("fuck %s (ID: %i; era = %s)" % (username, ID[0], ID[1])) 
-            print(f"{c.success}%s - Tweeted: Username = %s, ID = %i, Count = %i, Era = %s{c.olors}" % (getTime(), username, ID[0], ferunDB.getLastCount(), ID[1]))
-            resetCount('Tries', 'CurrentTry') # resets the tries count to avoid problems
-            ferunDB.createRow(username, ID[0])
-            break
-        except tweepy.TweepError as TweepError:    
-            if CurrentTry > MaximumTries or CurrentTry == MaximumTries:
-                print(f"{c.fail}%s - Cannot tweet anymore. Trying again in 15 minutes{c.olors}" % (getTime()))
-                sleep(60 * 15) 
+        while True:
+            try:
+                ID = getID()
+                username = getUsername(ID[0])
                 break
-            else:
-                sumCount(CurrentTry, 'Tries', 'CurrentTry')
-                CurrentTry = int(config['Tries']['CurrentTry'])
-                print(f"{c.fail}%s - Could not tweet. Trying again...{c.olors}" % (getTime()))
-                print(f"{c.fail}%s{c.olors}" % (TweepError))
+            except ValueError: # JSONDecodeError belongs to ValueError
+                print(f"{c.fail}%s - Error in decoding username; trying again...{c.olors}" % (getTime()))
+            
+            # ID[0] = generated id; ID[1] = id's era
 
-    sleep(TimeToCount)
+        if username == 'Invalid_ID': # checks if username is invalid
+            print(f"{c.fail}%s - Invalid User ID (%i); will not be tweeted. continuing with the next ID...{c.olors}" % (getTime(), ID[0]))
+            continue
+        else:
+            if ferunDB.isAlreadyTweeted(username):
+                print(f"{c.warning}%s - Username (%s) already tweeted. Repeating...{c.olors}" % (getTime(), username))
+                continue
 
-print(f"{c.success}%s - lol rip{c.olors}" % (getTime()))
+        while True:
+            try:
+                tweet("fuck %s (ID: %i; era = %s)" % (username, ID[0], ID[1])) 
+                print(f"{c.success}%s - Tweeted: Username = %s, ID = %i, Count = %i, Era = %s{c.olors}" % (getTime(), username, ID[0], ferunDB.getLastCount(), ID[1]))
+                resetCount('Tries', 'CurrentTry') # resets the tries count to avoid problems
+                ferunDB.createRow(username, ID[0])
+                break
+            except tweepy.TweepError as TweepError:    
+                if CurrentTry > MaximumTries or CurrentTry == MaximumTries:
+                    print(f"{c.fail}%s - Cannot tweet anymore. Trying again in 15 minutes{c.olors}" % (getTime()))
+                    sleep(60 * 15) 
+                    break
+                else:
+                    sumCount(CurrentTry, 'Tries', 'CurrentTry')
+                    CurrentTry = int(config['Tries']['CurrentTry'])
+                    print(f"{c.fail}%s - Could not tweet. Trying again...{c.olors}" % (getTime()))
+                    print(f"{c.fail}%s{c.olors}" % (TweepError))
+
+        sleep(TimeToCount)
+
+if __name__ == '__main__':
+    main_thread = Thread(target=main)
+    lastID_thread = Thread(target=getLastID)
+
+    main_thread.start()
+    lastID_thread.start()

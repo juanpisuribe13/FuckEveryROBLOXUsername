@@ -1,6 +1,10 @@
-import subprocess, sys
+import sys
+import subprocess
 import configparser
-import requests, time, math
+import requests
+import time
+import math
+
 from time import sleep
 from datetime import datetime
 
@@ -64,6 +68,6 @@ def getLastID():
     sumLastID(x)
     print("%s - New ID: %i" % (getTime(), x))
 
-while True:
+if __name__ == '__main__':
     getLastID()
     sleep(60 * 1440)

@@ -1,6 +1,9 @@
 # FERUN (Fuck Every Roblox Username)
 
-Twitter bot that tweets f--k alongside with a random ROBLOX username obtained from their API. Username is picked in eras; if the latest era is picked, it will pick an ID between 2016 and the latest ID registered which is obtained via the RecentRobloxUsers.py script (last ID is obtained every 24 hours to avoid sending an high amount of requests to ROBLOX).
+Archived this repository because I am moving away from Twitter for the sakes of my mental health. It was a fun ride.
+Also to be fair I never liked this bot anyways because I found it childish so... yeah.
+
+Tweets f--k alongside with a random ROBLOX username obtained from their API. Username is picked in eras; if the latest era is picked, it will pick an ID between 2016 and the latest ID registered which is obtained via the RecentRobloxUsers.py script (last ID is obtained every 24 hours to avoid sending a high amount of requests to ROBLOX).
 
 ## Before you begin...
 
@@ -47,24 +50,7 @@ python3 -m pip install -r requirements.txt
 python3 -m pip install -r requirements.txt
 ```
 
-**5.** Done! You could either run `python3 main.py` or `python3 main.py & python3 RecentRobloxUsers.py` if you want to obtain the last registered ID every 24 hours. 
-
-Keep in mind that while you're running both scripts and you stop it, the main.py will still be running. 
-A temporal way to fix this is to terminate it.
-```bash
-## if you're on UNIX:
-
-$ pgrep python3
-[PID]
-$ kill [PID]
-# if you dont have common sense PID is the value that pgrep python3 returns
-
-## if you're on windows
-
-taskkill /IM "Python3.exe" /F
-taskkill /IM "Python.exe" /F # only try this if python3 doesn't exist
-```
-A bash script will be worked soon to do this process automatically.
+**5.** Done! To run the bot, do `python3 main.py`.
 
 ## FAQ
 
